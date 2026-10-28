@@ -1,0 +1,238 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            background: #f4f6f9;
+            padding: 30px 15px;
+        }
+
+        .main-container{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .complaint-card,
+        .table-card{
+            width: 80%;
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .title{
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 25px;
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td, th{
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th{
+            background: #111827;
+            color: white;
+        }
+
+        td:first-child{
+            width: 25%;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        input[type="text"],
+        textarea{
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            outline: none;
+            background: #fafafa;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus{
+            border-color: #2563eb;
+            background: #fff;
+            box-shadow: 0 0 5px rgba(37,99,235,0.4);
+        }
+
+        textarea{
+            resize: none;
+            height: 120px;
+        }
+
+        .btn-box{
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .submit-btn{
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            background: #111827;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover{
+            background: #2563eb;
+        }
+
+        .empty-text{
+            text-align: center;
+            color: #6b7280;
+            padding: 20px;
+        }
+
+        @media(max-width: 768px){
+
+            .complaint-card,
+            .table-card{
+                width: 100%;
+                padding: 20px;
+            }
+
+            .title{
+                font-size: 26px;
+            }
+
+            td, th{
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- Complaint Form -->
+
+        <div class="complaint-card">
+
+            <h1 class="title">Submit Complaint</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <table>
+
+                    <tr>
+                        <td>Title</td>
+
+                        <td>
+                            <input type="text"
+                                   name="txt_title"
+                                   required
+                                   placeholder="Enter complaint title">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Content</td>
+
+                        <td>
+                            <textarea name="complaint"
+                                      required
+                                      placeholder="Enter complaint details"></textarea>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="btn-box">
+
+                            <input type="submit"
+                                   name="btn_submit"
+                                   value="Submit"
+                                   class="submit-btn">
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </form>
+
+        </div>
+
+        <!-- Complaint Table -->
+
+        <div class="table-card">
+
+            <h1 class="title">Complaint History</h1>
+
+            <table>
+
+                <tr>
+                    <th>SI No</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                </tr>
+
+                {% for i in complaint %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.complaint_title }}</td>
+                    <td>{{ i.complaint_content }}</td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="empty-text">
+                        No complaints found
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+{% endblock content %}

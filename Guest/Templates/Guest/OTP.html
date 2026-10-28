@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Verification</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: 'Poppins', Arial, sans-serif;
+    }
+
+    body{
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color:#fff;
+    }
+
+    .card{
+        width:380px;
+        padding:35px;
+        border-radius:15px;
+        background: rgba(255,255,255,0.08);
+        border:1px solid rgba(255,255,255,0.2);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        text-align:center;
+    }
+
+    .card h2{
+        margin-bottom:20px;
+        font-weight:600;
+        letter-spacing:1px;
+    }
+
+    .input-box{
+        width:100%;
+        margin-bottom:20px;
+    }
+
+    input[type="text"]{
+        width:100%;
+        padding:12px;
+        border:none;
+        outline:none;
+        border-radius:8px;
+        background:rgba(255,255,255,0.12);
+        color:#fff;
+        border:1px solid rgba(255,255,255,0.25);
+        transition:0.3s;
+        text-align:center;
+        font-size:16px;
+        letter-spacing:2px;
+    }
+
+    input[type="text"]:focus{
+        border:1px solid #00c6ff;
+        box-shadow:0 0 10px #00c6ff;
+    }
+
+    input[type="submit"]{
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:8px;
+        background: linear-gradient(90deg, #00c6ff, #0072ff);
+        color:#fff;
+        font-weight:bold;
+        cursor:pointer;
+        transition:0.3s;
+        letter-spacing:1px;
+    }
+
+    input[type="submit"]:hover{
+        transform:scale(1.03);
+        box-shadow:0 0 15px #00c6ff;
+    }
+
+    .note{
+        font-size:12px;
+        margin-top:10px;
+        opacity:0.8;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>OTP Verification</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="input-box">
+            <input type="text" name="txt_otp" placeholder="Enter OTP" required>
+        </div>
+
+        <input type="submit" value="Verify OTP">
+    </form>
+
+    <div class="note">Enter the 6-digit code sent to your email</div>
+</div>
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+</script>
+{% endif %}
+
+</body>
+</html>

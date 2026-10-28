@@ -1,0 +1,334 @@
+{% extends 'Guest/Header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New User Registration</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+        }
+
+        .register-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        .register-card {
+            width: 50%;
+            background: #fff;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .register-card h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #111827;
+            font-size: 36px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 12px;
+            vertical-align: top;
+        }
+
+        td:first-child {
+            width: 30%;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            outline: none;
+            font-size: 15px;
+            transition: 0.3s;
+            background: #fafafa;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 5px rgba(37, 99, 235, 0.4);
+            background: #fff;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .gender-box {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .gender-box label {
+            font-weight: 500;
+            color: #444;
+        }
+
+        .btn-box {
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .btn-box input {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.3s;
+            margin: 5px;
+        }
+
+        .submit-btn {
+            background: #111827;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #2563eb;
+        }
+
+        .reset-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .reset-btn:hover {
+            background: #d1d5db;
+        }
+
+        @media(max-width: 992px) {
+            .register-card {
+                width: 70%;
+            }
+        }
+
+        @media(max-width: 768px) {
+            .register-card {
+                width: 100%;
+                padding: 25px;
+            }
+
+            .register-card h1 {
+                font-size: 28px;
+            }
+
+            td {
+                display: block;
+                width: 100%;
+            }
+
+            td:first-child {
+                padding-bottom: 5px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="register-container">
+        <div class="register-card">
+
+            <h1>New User</h1>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <table>
+
+                    <tr>
+                        <td>District</td>
+                        <td>
+                            <select name="sel_district" id="sel_district" required>
+                                <option value="">--- Select District ---</option>
+
+                                {% for i in district %}
+                                <option value="{{i.id}}">
+                                    {{i.district_name}}
+                                </option>
+                                {% endfor %}
+
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Place</td>
+                        <td>
+                            <select name="sel_place" id="sel_place" required>
+                                <option value="">--- Select Place ---</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Name</td>
+                        <td>
+                            <input type="text" name="txt_name" required
+                                placeholder="Enter your name"
+                                minlength="5"
+                                title="Name Allows Only Alphabets, Spaces and First Letter Must Be Capital Letter"
+                                pattern="^[A-Z]+[a-zA-Z ]*$" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Gender</td>
+                        <td>
+                            <div class="gender-box">
+
+                                <label>
+                                    <input type="radio" name="rd_gender" value="Male" required>
+                                    Male
+                                </label>
+
+                                <label>
+                                    <input type="radio" name="rd_gender" value="Female">
+                                    Female
+                                </label>
+
+                                <label>
+                                    <input type="radio" name="rd_gender" value="Others">
+                                    Others
+                                </label>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Contact</td>
+                        <td>
+                            <input type="text" name="txt_contact"
+                                required
+                                placeholder="Enter your phone number"
+                                pattern="[7-9]{1}[0-9]{9}"
+                                title="Phone number must start with 7-9 and contain 10 digits" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Email</td>
+                        <td>
+                            <input type="text" name="txt_email"
+                                required
+                                placeholder="Enter your email">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Password</td>
+                        <td>
+                            <input type="password"
+                                name="txt_pwd"
+                                required
+                                placeholder="Enter your password"
+                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Address</td>
+                        <td>
+                            <textarea name="txt_address"
+                                required
+                                placeholder="Enter your address"></textarea>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Photo</td>
+                        <td>
+                            <input type="file" name="file_photo" accept="image/*" required>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Proof</td>
+                        <td>
+                            <input type="file" name="file_proof" accept="image/*" required>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="btn-box">
+                            <input type="submit" name="btn_submit" value="Submit" class="submit-btn">
+
+                            <input type="reset" name="btn_cancel" value="Cancel" class="reset-btn">
+                        </td>
+                    </tr>
+
+                </table>
+
+            </form>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $("#sel_district").change(function () {
+
+        var did = $(this).val();
+
+        var ur = "{% url 'Guest:ajaxplace' %}"
+
+        $.ajax({
+            url: ur,
+            data: {
+                did: did,
+            },
+            success: function (data) {
+                $("#sel_place").html(data);
+            },
+        });
+
+    });
+</script>
+
+{% endblock content %}

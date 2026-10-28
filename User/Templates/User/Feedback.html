@@ -1,0 +1,220 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            background: #f4f6f9;
+            padding: 30px 15px;
+        }
+
+        .main-container{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .feedback-card,
+        .table-card{
+            width: 80%;
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .title{
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 25px;
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td, th{
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th{
+            background: #111827;
+            color: white;
+        }
+
+        td:first-child{
+            width: 25%;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        textarea{
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            outline: none;
+            background: #fafafa;
+            font-size: 15px;
+            resize: none;
+            height: 120px;
+            transition: 0.3s;
+        }
+
+        textarea:focus{
+            border-color: #2563eb;
+            background: #fff;
+            box-shadow: 0 0 5px rgba(37,99,235,0.4);
+        }
+
+        .btn-box{
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .submit-btn{
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            background: #111827;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover{
+            background: #2563eb;
+        }
+
+        .empty-text{
+            text-align: center;
+            color: #6b7280;
+            padding: 20px;
+        }
+
+        @media(max-width: 768px){
+
+            .feedback-card,
+            .table-card{
+                width: 100%;
+                padding: 20px;
+            }
+
+            .title{
+                font-size: 26px;
+            }
+
+            td, th{
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- Feedback Form -->
+
+        <div class="feedback-card">
+
+            <h1 class="title">Submit Feedback</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <table>
+
+                    <tr>
+                        <td>Feedback</td>
+
+                        <td>
+                            <textarea name="content"
+                                      required
+                                      placeholder="Enter your feedback"></textarea>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="btn-box">
+
+                            <input type="submit"
+                                   name="btn_submit"
+                                   value="Submit"
+                                   class="submit-btn">
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </form>
+
+        </div>
+
+        <!-- Feedback Table -->
+
+        <div class="table-card">
+
+            <h1 class="title">Feedback History</h1>
+
+            <table>
+
+                <tr>
+                    <th>SI No</th>
+                    <th>Feedback</th>
+                </tr>
+
+                {% for i in feedback %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.feedback_content }}</td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="2" class="empty-text">
+                        No feedback found
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+{% endblock content %}

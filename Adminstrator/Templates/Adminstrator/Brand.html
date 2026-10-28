@@ -1,0 +1,265 @@
+{% extends 'Adminstrator/Header.html' %}
+{% load static %}
+{% block content %}
+<style>
+
+    .brand-container{
+        width: 95%;
+        margin: 30px auto;
+    }
+
+    .brand-card{
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    .brand-title{
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #1b2a4e;
+        margin-bottom: 25px;
+    }
+
+    .brand-form{
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .form-group{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .form-group label{
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-group input{
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    .form-group input:focus{
+        border-color: #3f51b5;
+        box-shadow: 0px 0px 5px rgba(63,81,181,0.4);
+        outline: none;
+    }
+
+    .btn-group{
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-submit,
+    .btn-reset{
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin: 5px;
+    }
+
+    .btn-submit{
+        background: #3f51b5;
+        color: white;
+    }
+
+    .btn-submit:hover{
+        background: #2f3e94;
+    }
+
+    .btn-reset{
+        background: #f44336;
+        color: white;
+    }
+
+    .btn-reset:hover{
+        background: #d32f2f;
+    }
+
+    .table-card{
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        overflow-x: auto;
+    }
+
+    .table-title{
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #1b2a4e;
+    }
+
+    table{
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table th{
+        background: #3f51b5;
+        color: white;
+        padding: 14px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    table td{
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+    table tr:hover{
+        background: #f5f7ff;
+    }
+
+    .action-btn{
+        padding: 8px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: white;
+        font-size: 13px;
+        margin: 2px;
+        display: inline-block;
+        transition: 0.3s;
+    }
+
+    .delete-btn{
+        background: #f44336;
+    }
+
+    .delete-btn:hover{
+        background: #d32f2f;
+    }
+
+    .edit-btn{
+        background: #4caf50;
+    }
+
+    .edit-btn:hover{
+        background: #388e3c;
+    }
+
+    @media(max-width:768px){
+
+        .brand-title,
+        .table-title{
+            font-size: 24px;
+        }
+
+        table th,
+        table td{
+            font-size: 12px;
+            padding: 10px;
+        }
+    }
+
+</style>
+
+<div class="brand-container">
+
+    <!-- Brand Form -->
+    <div class="brand-card">
+
+        <div class="brand-title">
+            Brand Registration
+        </div>
+
+        <form method="post" class="brand-form">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label>Brand Name</label>
+
+                <input type="text"
+                       name="txt_br"
+                       required
+                       placeholder="Enter Your Brand"
+                       value="{{editdata.brand_name}}">
+
+            </div>
+
+            <div class="btn-group">
+
+                <input type="submit"
+                       name="btn_submit"
+                       value="Submit"
+                       class="btn-submit">
+
+                <input type="reset"
+                       name="btn_reset"
+                       value="Cancel"
+                       class="btn-reset">
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Brand Details -->
+    <div class="table-card">
+
+        <div class="table-title">
+            Brand Details
+        </div>
+
+        <table>
+
+            <tr>
+                <th>Sl.No</th>
+                <th>Brand Name</th>
+                <th>Action</th>
+            </tr>
+
+            {% for i in brand %}
+
+            <tr>
+
+                <td>{{forloop.counter}}</td>
+
+                <td>{{i.brand_name}}</td>
+
+                <td>
+
+                    <a href="{% url 'Admin:branddelete' i.id %}"
+                       class="action-btn delete-btn">
+                       Delete
+                    </a>
+
+                    <a href="{% url 'Admin:brandedit' i.id %}"
+                       class="action-btn edit-btn">
+                       Edit
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+{% endblock content %}

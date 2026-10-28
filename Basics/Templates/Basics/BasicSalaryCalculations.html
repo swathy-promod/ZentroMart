@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="">
+        {% csrf_token %}
+        <table border="3" align="center">
+            <tr>
+                <td> first Name</td>
+                <td><input type="text" name="txt_fname" placeholder=""></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" name="txt_lname" placeholder=""></td>
+            </tr>
+            <tr>
+            <td>Gender</td>
+                <td><input type="radio" name="rd_gender" value="male">male 
+                <input type="radio" name="rd_gender" value="female">female</td>
+            </tr>
+            <tr>
+            <td>Martial Status</td>
+                <td><input type="radio" name="rd_martial" value="single">single 
+                <input type="radio" name="rd_martial" value="commited">commited</td>
+            </tr>
+            <tr>
+                <td>department</td>
+                <td><select name="sel_dept">
+                    <option value="select">---select---</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Commerce">Commerce</option>
+                    <option value="Physical Education">Physical Education</option>
+                </select>
+            </td>
+            </tr>
+            <tr>
+                 <td> Basic Salary</td>
+                <td><input type="text" name="txt_bs" placeholder=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center" ><input type="submit" name="btn_submit" value="submit"> <input type="reset" name="btn_cancel" value="cancel"></td>
+            </tr>
+ </table>
+</form>  
+<h1 align="center" >DETAILS</h1>
+            <table border="3" align="center">
+                <tr>
+                    <td>Name</td>
+                    <td>{{fullname}}</td>
+                </tr>
+                <tr>
+                    <tr>
+                    <td>gender</td>
+                    <td>{{gen}}</td>
+                </tr> 
+                <tr>
+                    <td>marital status</td>
+                    <td>{{martial}}</td>
+                </tr>
+                <tr>
+                    <td>department</td>
+                    <td>{{dpt}}</td>
+                </tr>
+                <tr>
+                    <td>basic salary</td>
+                    <td>{{bs}}</td>
+                </tr>
+                <tr>
+                    <td>TA</td>
+                    <td>{{TA}}</td>
+                </tr>
+                <tr>
+                    <td>DA</td>
+                    <td>{{DA}}</td>
+                </tr>
+                <tr>
+                    <td>HRA</td>
+                    <td>{{HRA}}</td>
+                </tr>
+                <tr>
+                    <td>LIC</td>
+                    <td>{{LIC}}</td>
+                </tr>
+                <tr>
+                    <td>PF</td>
+                    <td>{{PF}}</td>
+                </tr>
+                <tr>
+                    <td>DEDUCTION</td>
+                    <td>{{ded}}</td>
+                </tr>
+                <tr>
+                    <td>NET</td>
+                    <td>{{netamt}}</td>
+                </tr>
+
+</body>
+</html>

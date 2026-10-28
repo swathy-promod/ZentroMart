@@ -1,0 +1,20 @@
+
+{% for i in data %}
+<div class="card mb-2">
+  <div class="card-header">{{i.user.user_name}}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-6">
+        {% for j in ar %}
+          {% if j <= i.rating_data %}
+            <i class="fas fa-star text-warning"></i>
+          {% else %}
+            <i class="fas fa-star star-light"></i>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="col-sm-6">{{i.user_review}}</div>
+    </div>
+  </div>
+</div>
+{% endfor %}

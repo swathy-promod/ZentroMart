@@ -1,0 +1,221 @@
+{% extends 'Adminstrator/Header.html' %}
+{% load static %}
+{% block content %}
+<style>
+
+    body{
+        font-family: 'Poppins', sans-serif;
+        background: #f4f7fc;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container{
+        width: 95%;
+        max-width: 1400px;
+        margin: 40px auto;
+    }
+
+    .page-title{
+        text-align: center;
+        font-size: 34px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 30px;
+    }
+
+    .table-card{
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        overflow-x: auto;
+    }
+
+    .details-table{
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1200px;
+    }
+
+    .details-table th{
+        background: #2563eb;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .details-table td{
+        padding: 14px;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 14px;
+    }
+
+    .details-table tr:hover{
+        background: #f8fafc;
+    }
+
+    .seller-img{
+        width: 120px;
+        height: 120px;
+        border-radius: 10px;
+        object-fit: cover;
+        border: 2px solid #dbeafe;
+    }
+
+    .action-btn{
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        color: white;
+        font-size: 14px;
+        margin: 3px;
+        display: inline-block;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+
+    .accept-btn{
+        background: #10b981;
+    }
+
+    .accept-btn:hover{
+        background: #059669;
+    }
+
+    .reject-btn{
+        background: #ef4444;
+    }
+
+    .reject-btn:hover{
+        background: #dc2626;
+    }
+
+    .accepted{
+        color: #10b981;
+        font-weight: 700;
+    }
+
+    .rejected{
+        color: #ef4444;
+        font-weight: 700;
+    }
+
+    @media(max-width:768px){
+
+        .page-title{
+            font-size: 28px;
+        }
+
+        .table-card{
+            padding: 15px;
+        }
+    }
+
+</style>
+
+<div class="container">
+
+    <h2 class="page-title">Seller List</h2>
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <div class="table-card">
+
+            <table class="details-table">
+
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Photo</th>
+                    <th>Proof</th>
+                    <th>District</th>
+                    <th>Place</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for i in seller %}
+
+                <tr>
+
+                    <td>{{forloop.counter}}</td>
+
+                    <td>{{i.shop_name}}</td>
+
+                    <td>{{i.shop_email}}</td>
+
+                    <td>{{i.shop_contact}}</td>
+
+                    <td>{{i.shop_address}}</td>
+
+                    <td>
+                        <img src="{{i.shop_photo.url}}"
+                             class="seller-img">
+                    </td>
+
+                    <td>
+                        <img src="{{i.shop_proof.url}}"
+                             class="seller-img">
+                    </td>
+
+                    <td>{{i.place.district.district_name}}</td>
+
+                    <td>{{i.place.place_name}}</td>
+
+                    <td>
+
+                        {% if i.shop_status == 0 %}
+
+                        <a href="{% url 'Admin:acceptseller' i.id %}"
+                           class="action-btn accept-btn">
+                           Accept
+                        </a>
+
+                        <a href="{% url 'Admin:rejectseller' i.id %}"
+                           class="action-btn reject-btn">
+                           Reject
+                        </a>
+
+                        {% elif i.shop_status == 1 %}
+
+                        <span class="accepted">Accepted</span>
+
+                        {% else %}
+
+                        <span class="rejected">Rejected</span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% if msg %}
+
+<script>
+
+    alert("{{msg}}")
+
+    window.location="{% url 'Admin:sellerlist' %}"
+
+</script>
+
+{% endif %}
+{% endblock content %}

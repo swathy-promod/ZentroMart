@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum</title>
+</head>
+
+<body>
+    <form method="post" action="">
+        {% csrf_token %}
+        <table border="3" align="center">
+
+            <tr>
+                <td>first number</td>
+                <td><input type="number" name="txt_num1" placeholder=""></td>
+            </tr>
+            <tr>
+                <td>second number</td>
+                <td><input type="number" name="txt_num2" placeholder=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" class="btn_submit" value="sum">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Result
+                </td>
+
+
+
+
+
+
+                <td>
+                  {{ Sum }}
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</body>
+
+</html>

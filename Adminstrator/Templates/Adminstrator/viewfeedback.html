@@ -1,0 +1,133 @@
+{% extends 'Adminstrator/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Feedback</title>
+
+    <style>
+
+        body{
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fc;
+        }
+
+        .container{
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .title{
+            text-align: center;
+            font-size: 34px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 30px;
+        }
+
+        .table-card{
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th{
+            background: #2563eb;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        table td{
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 15px;
+            color: #334155;
+        }
+
+        table tr:hover{
+            background: #f1f5f9;
+        }
+
+        .feedback-content{
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        @media screen and (max-width:768px){
+
+            .title{
+                font-size: 28px;
+            }
+
+            table th,
+            table td{
+                padding: 10px;
+                font-size: 13px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1 class="title">View Feedback</h1>
+
+        <form>
+
+            {% csrf_token %}
+
+            <div class="table-card">
+
+                <table>
+
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Feedback Content</th>
+                    </tr>
+
+                    {% for i in viewfeedback %}
+
+                    <tr>
+
+                        <td>{{ forloop.counter }}</td>
+
+                        <td class="feedback-content">
+                            {{i.feedback_content}}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
+{% endblock content %}

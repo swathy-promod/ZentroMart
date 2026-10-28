@@ -1,0 +1,163 @@
+{% extends 'Seller/Header.html' %}
+{% block content %}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial;
+    }
+
+    .container {
+        width: 95%;
+        margin: 30px auto;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 25px;
+    }
+
+    .title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background: #007bff;
+        color: white;
+    }
+
+    .status {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .p1 {
+        background: #ffc107;
+    }
+
+    .p2 {
+        background: #28a745;
+        color: white;
+    }
+
+    .p3 {
+        background: #17a2b8;
+        color: white;
+    }
+</style>
+
+<div class="container">
+
+    {% for i in bookingdata %}
+
+    <div class="card">
+
+        <div class="title">
+            Booking #{{ forloop.counter }} |
+            {{ i.booking_date }} |
+            {{ i.userid.user_name }}
+        </div>
+
+        <p>
+            <b>User Details:{{i.userid.user_name}} ,{{i.userid.user_email}} ,{{i.userid.user_contact}}<br>
+                ,{{i.userid.user_address}} ,<br>{{i.userid.place.place_name}},{{i.userid.place.district.district_name}}</b><br>
+            <b>Amount:</b> ₹{{ i.booking_amount }}
+        </p>
+
+        <!-- STATUS -->
+        <p>
+            <b>Status:</b>
+
+            {% if i.booking_status == 1 %}
+            Payment Pending
+            {% elif i.booking_status == 2 %}
+            Payment Completed
+           
+            {% endif %}
+        </p>
+
+        <!-- INNER LOOP START (CART ITEMS) -->
+        <table>
+            <tr>
+                <th>Photo</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+
+            {% for c in i.tbl_cart_set.all %}
+             {% if c.productid.shop.id == sid %}
+            <tr>
+                <td><img src="{{c.productid.product_photo.url}}" width="100" alt=""></td>
+                <td>{{ c.productid.product_name }}</td>
+                <td>{{ c.cart_quantity }}</td>
+                <td>₹ {{ c.productid.product_price}}</td>
+                <td>
+                    {% if c.cart_status == 1 %}
+                    Payment Pending..
+                    {% elif c.cart_status == 2 %}
+                    <a href="{% url 'Seller:orderpacked' c.id %}">✔ Order Packed</a>
+
+                    {% elif c.cart_status == 3 %}
+                    <a href="{% url 'Seller:ordershipped' c.id %}">🚚 Order Shipped</a>
+
+                    {% elif c.cart_status == 4 %}
+                    Order Shipped.
+
+                    {% elif c.cart_status == 5 %}
+
+                    Order Collected By <br>Deliveryboy - {{c.deliveryboy.dboy_name}}, {{c.deliveryboy.dboy_email}},
+                    {{c.deliveryboy.dboy_contact}}
+
+                    {% elif c.cart_status == 6 %}
+ 
+                    Out For Delivery
+                    <br>
+                    DeliveryBoy Details - {{c.deliveryboy.dboy_name}}, {{c.deliveryboy.dboy_email}},
+                    {{c.deliveryboy.dboy_contact}}
+
+                    {% elif c.cart_status == 7 %}
+                    Order Delivered.
+                    <br>DeliveryBoy Details - {{c.deliveryboy.dboy_name}}, {{c.deliveryboy.dboy_email}},
+                    {{c.deliveryboy.dboy_contact}}
+
+                    {% endif %}
+                </td>
+            </tr>
+                    {% endif %}
+
+            {% endfor %}
+        </table>
+
+        <br>
+
+
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

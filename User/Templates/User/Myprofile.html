@@ -1,0 +1,232 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            background: #f4f6f9;
+        }
+
+        .profile-container{
+            width: 100%;
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .profile-card{
+            width: 520px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .profile-title{
+            text-align: center;
+            font-size: 34px;
+            color: #111827;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .profile-image{
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-image img{
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #2563eb;
+        }
+
+        table{
+            width: 100%;
+        }
+
+        td{
+            padding: 12px;
+            vertical-align: top;
+        }
+
+        td:first-child{
+            width: 35%;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .profile-value{
+            color: #4b5563;
+        }
+
+        .btn-box{
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .btn{
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .edit-btn{
+            background: #111827;
+        }
+
+        .edit-btn:hover{
+            background: #2563eb;
+        }
+
+        .password-btn{
+            background: #dc2626;
+        }
+
+        .password-btn:hover{
+            background: #b91c1c;
+        }
+
+        @media(max-width: 600px){
+
+            .profile-card{
+                width: 100%;
+                padding: 25px;
+            }
+
+            .profile-title{
+                font-size: 28px;
+            }
+
+            td{
+                display: block;
+                width: 100%;
+                padding: 8px 0;
+            }
+
+            td:first-child{
+                padding-top: 15px;
+            }
+
+            .btn{
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="profile-container">
+
+        <div class="profile-card">
+
+            <h1 class="profile-title">My Profile</h1>
+
+            <div class="profile-image">
+                <img src="{{user.user_photo.url}}" alt="User Photo">
+            </div>
+
+            <table border="0">
+
+                <tr>
+                    <td>Name</td>
+                    <td class="profile-value">
+                        {{ user.user_name }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Email</td>
+                    <td class="profile-value">
+                        {{ user.user_email }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Contact</td>
+                    <td class="profile-value">
+                        {{ user.user_contact }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td class="profile-value">
+                        <textarea readonly>{{ user.user_address }}</textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>District</td>
+                    <td class="profile-value">
+                        {{ user.place.district.district_name }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Place</td>
+                    <td class="profile-value">
+                        {{ user.place.place_name }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" class="btn-box">
+
+                        <a href="{% url 'User:editprofile' %}"
+                           class="btn edit-btn">
+                           Edit Profile
+                        </a>
+
+                        <a href="{% url 'User:changepassword' %}"
+                           class="btn password-btn">
+                           Change Password
+                        </a>
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+{% if msg %}
+<script>
+    alert('{{msg}}')
+    window.location = "{% url 'User:myprofile' %}"
+</script>
+{% endif %}
+
+{% endblock content %}

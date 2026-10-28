@@ -1,0 +1,173 @@
+{% extends 'Seller/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Gallery</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            background: #f4f6f9;
+        }
+
+        .gallery-container{
+            width: 100%;
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .gallery-card{
+            width: 420px;
+            background: #fff;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .gallery-title{
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 30px;
+        }
+
+        table{
+            width: 100%;
+        }
+
+        td{
+            padding: 12px 0;
+        }
+
+        td:first-child{
+            width: 30%;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        input[type="file"]{
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            background: #fafafa;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        input[type="file"]:hover{
+            border-color: #2563eb;
+            background: #fff;
+        }
+
+        .btn-box{
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .submit-btn{
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #111827;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover{
+            background: #2563eb;
+        }
+
+        @media(max-width: 500px){
+
+            .gallery-card{
+                width: 100%;
+                padding: 25px;
+            }
+
+            .gallery-title{
+                font-size: 26px;
+            }
+
+            td{
+                display: block;
+                width: 100%;
+            }
+
+            td:first-child{
+                padding-bottom: 5px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="gallery-container">
+
+        <div class="gallery-card">
+
+            <h1 class="gallery-title">Add Gallery</h1>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <table>
+
+                    <tr>
+                        <td>Photo</td>
+
+                        <td>
+                            <input type="file"
+                                   name="photo"
+                                   accept="image/*"
+                                   required>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="btn-box">
+
+                            <input type="submit"
+                                   value="Add Photo"
+                                   class="submit-btn">
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+{% endblock content %}

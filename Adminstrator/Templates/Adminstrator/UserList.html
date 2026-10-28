@@ -1,0 +1,234 @@
+{% extends 'Adminstrator/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+
+    <style>
+
+        /* body{
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fc;
+        } */
+
+        .main-containerjjj{
+            width: 95%;
+            margin: auto;
+        }
+
+        .titlekk{
+            text-align: center;
+            font-size: 34px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 30px;
+        }
+
+        .table-containerjjj{
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th{
+            background: #2563eb;
+            color: white;
+            padding: 14px;
+            font-size: 15px;
+        }
+
+        table td{
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        table tr:hover{
+            background: #f1f5f9;
+        }
+
+        .himg{
+            width: 110px;
+            height: 110px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn{
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .accept-btn{
+            background: #16a34a;
+        }
+
+        .accept-btn:hover{
+            background: #15803d;
+        }
+
+        .reject-btn{
+            background: #dc2626;
+        }
+
+        .reject-btn:hover{
+            background: #b91c1c;
+        }
+
+        .accepted{
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .rejected{
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        @media screen and (max-width:768px){
+
+            .titlekk{
+                font-size: 26px;
+            }
+
+            table th,
+            table td{
+                font-size: 13px;
+                padding: 10px;
+            }
+
+            .himg{
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="main-containerjjj">
+
+        <h2 class="titlekk">User List</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="table-containerjjj">
+
+                <table>
+
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Photo</th>
+                        <th>Proof</th>
+                        <th>District</th>
+                        <th>Place</th>
+                        <th>Action</th>
+                    </tr>
+
+                    {% for i in userlist %}
+
+                    <tr>
+
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>{{i.user_name}}</td>
+
+                        <td>{{i.user_email}}</td>
+
+                        <td>{{i.user_contact}}</td>
+
+                        <td>{{i.user_address}}</td>
+
+                        <td>
+                            <img class="himg" src="{{i.user_photo.url}}">
+                        </td>
+
+                        <td>
+                            <img class="himg" src="{{i.user_proof.url}}">
+                        </td>
+
+                        <td>{{i.place.district.district_name}}</td>
+
+                        <td>{{i.place.place_name}}</td>
+
+                        <td>
+
+                            {% if i.user_status == 0 %}
+
+                                <a href="{% url 'Admin:acceptuser' i.id %}"
+                                   class="btn accept-btn">
+                                   Accept
+                                </a>
+
+                                <a href="{% url 'Admin:rejectuser' i.id %}"
+                                   class="btn reject-btn">
+                                   Reject
+                                </a>
+
+                            {% elif i.user_status == 1 %}
+
+                                <span class="accepted">Accepted</span>
+
+                            {% else %}
+
+                                <span class="rejected">Rejected</span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
+
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Admin:userlist' %}"
+</script>
+{% endif %}
+
+{% endblock content %}

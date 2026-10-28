@@ -1,0 +1,117 @@
+{% extends 'Guest/Header.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    body{
+        background: #f4f6f9;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .login-container{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 80px 0;
+    }
+
+    .login-box{
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+        width: 350px;
+    }
+
+    .login-box h2{
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    .input-group{
+        margin-bottom: 20px;
+    }
+
+    .input-group label{
+        display: block;
+        margin-bottom: 6px;
+        color: #555;
+        font-weight: bold;
+    }
+
+    .input-group input{
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    .input-group input:focus{
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0px 0px 5px rgba(0,123,255,0.5);
+    }
+
+    .login-btn{
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #007bff;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .login-btn:hover{
+        background: #0056b3;
+    }
+
+    @media(max-width: 400px){
+        .login-box{
+            width: 90%;
+            padding: 25px;
+        }
+    }
+</style>
+
+<div class="login-container">
+    <form method="post" class="login-box">
+        {% csrf_token %}
+
+        <h2>Login</h2>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="text" name="txt_login"
+                   placeholder="Enter Your Email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="txt_password"
+                   placeholder="Enter your Password"
+                   required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                   title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+        </div>
+        <tr>
+                <td colspan="2" align="right"><a href="{% url 'Guest:forgotpassword' %}">Forgot Password</a></td>
+        </tr>
+
+        <button type="submit" class="login-btn">Login</button>
+    </form>
+</div>
+
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Guest:login' %}"
+</script>
+{% endif %}
+
+{% endblock content %}

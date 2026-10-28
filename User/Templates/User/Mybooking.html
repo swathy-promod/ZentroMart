@@ -1,0 +1,234 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .booking-container {
+        width: 95%;
+        margin: 40px auto;
+    }
+
+    .booking-card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+        overflow-x: auto;
+    }
+
+    .booking-card h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+        font-size: 32px;
+    }
+
+    .summary-box {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .summary-item {
+        flex: 1;
+        min-width: 220px;
+        background: #f8f9fa;
+        padding: 18px;
+        border-radius: 10px;
+        border-left: 5px solid #007bff;
+    }
+
+    .summary-item h4 {
+        margin: 0 0 8px;
+        color: #444;
+    }
+
+    .summary-item p {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table th,
+    table td {
+        padding: 14px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    table th {
+        background: #007bff;
+        color: white;
+    }
+
+    table tr:nth-child(even) {
+        background: #f2f2f2;
+    }
+
+    .product-img {
+        width: 120px;
+        height: 120px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    .status {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        display: inline-block;
+    }
+
+    .pending {
+        background: #ffc107;
+        color: black;
+    }
+
+    .success {
+        background: #28a745;
+    }
+
+    .danger {
+        background: #dc3545;
+    }
+
+    .checkout-box {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    .checkout-btn {
+        padding: 14px 35px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 17px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .checkout-btn:hover {
+        background: #0056b3;
+    }
+
+    @media(max-width: 768px) {
+
+        .summary-box {
+            flex-direction: column;
+        }
+
+        table {
+            font-size: 14px;
+        }
+
+        .product-img {
+            width: 90px;
+            height: 90px;
+        }
+    }
+</style>
+
+<div class="booking-container">
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <h2>My Booking</h2>
+        {% for i in bookingdata %}
+        <div class="booking-card">
+            <div class="summary-box">
+
+                <div class="summary-item">
+                    <h4>Booking Date</h4>
+                    <p>{{i.booking_date}}</p>
+                </div>
+
+                <div class="summary-item">
+                    <h4>Total Amount</h4>
+                    <p>₹ {{i.booking_amount}}</p>
+                </div>
+
+            </div>
+
+            <table>
+
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Photo</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for c in i.tbl_cart_set.all %}
+
+                <tr>
+
+                    <td>{{ forloop.counter }}</td>
+
+                    <td>
+                        <img src="{{c.productid.product_photo.url}}" class="product-img">
+                    </td>
+
+                    <td>{{ c.productid.product_name }}</td>
+
+                    <td>₹ {{ c.productid.product_price }}</td>
+
+                    <td>{{ c.cart_quantity }}</td>
+                    <td>
+                        ₹ {% widthratio c.productid.product_price 1 c.cart_quantity %}
+                    </td>
+                    <td>
+                        {% if c.cart_status == 2 %}
+                        <span>payment succesfull</span>
+                        {% elif c.cart_status == 3 %}
+                        <span>Order Packed</span>
+                        {% elif c.cart_status == 4 %}
+                        <span>Order Shipped</span>
+                        {% elif c.cart_status == 5 %}
+                        <span>Order collected from hub</span>
+                        {% elif c.cart_status == 6 %}
+                        <span>Out Of Delivery</span>
+                        {% elif c.cart_status == 7 %}
+                        Delivered Succesfully
+                         <a href="{% url 'User:rating' c.productid.id %}" class="btn-action btn-outline">⭐ Rate & Review</a>
+                        {% else %}
+                        N/A
+                        {% endif %}
+                       
+                    </td>
+                    
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+        {% endfor %}
+
+    </form>
+
+</div>
+
+
+{% endblock content %}

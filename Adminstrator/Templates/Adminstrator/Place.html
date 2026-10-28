@@ -1,0 +1,314 @@
+{% extends 'Adminstrator/Header.html' %}
+{% load static %}
+{% block content %}
+<style>
+
+    body{
+        font-family: 'Poppins', sans-serif;
+        background: #f4f7fc;
+    }
+
+    .container{
+        width: 92%;
+        max-width: 1000px;
+        margin: 40px auto;
+    }
+
+    .page-title{
+        text-align: center;
+        font-size: 34px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 30px;
+    }
+
+    .form-card,
+    .table-card{
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+    }
+
+    .form-table,
+    .details-table{
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .form-table td{
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .details-table th{
+        background: #2563eb;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .details-table td{
+        padding: 14px;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 14px;
+    }
+
+    .details-table tr:hover{
+        background: #f8fafc;
+    }
+
+    input[type="text"],
+    select{
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 15px;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    input[type="text"]:focus,
+    select:focus{
+        border-color: #2563eb;
+        box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    .btn-group{
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .btn{
+        padding: 10px 22px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin: 5px;
+        color: white;
+        font-weight: 500;
+    }
+
+    .submit-btn{
+        background: #2563eb;
+    }
+
+    .submit-btn:hover{
+        background: #1d4ed8;
+    }
+
+    .reset-btn{
+        background: #ef4444;
+    }
+
+    .reset-btn:hover{
+        background: #dc2626;
+    }
+
+    .action-btn{
+        text-decoration: none;
+        padding: 7px 14px;
+        border-radius: 6px;
+        color: white;
+        font-size: 14px;
+        margin: 2px;
+        display: inline-block;
+        transition: 0.3s;
+    }
+
+    .edit-btn{
+        background: #10b981;
+    }
+
+    .edit-btn:hover{
+        background: #059669;
+    }
+
+    .delete-btn{
+        background: #ef4444;
+    }
+
+    .delete-btn:hover{
+        background: #dc2626;
+    }
+
+    .section-title{
+        text-align: center;
+        color: #1e293b;
+        margin-bottom: 20px;
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+    @media(max-width:768px){
+
+        .form-table td{
+            display: block;
+            width: 100%;
+        }
+
+        .details-table{
+            display: block;
+            overflow-x: auto;
+        }
+
+        .page-title{
+            font-size: 26px;
+        }
+    }
+
+</style>
+
+<div class="container">
+
+    <h2 class="page-title">Place Management</h2>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="form-card">
+
+            <table class="form-table">
+
+                <tr>
+
+                    <td><strong>District Name</strong></td>
+
+                    <td>
+
+                        <select name="sel_district" required>
+
+                            <option value="">---Select---</option>
+
+                            {% for i in district %}
+
+                            <option value="{{i.id}}"
+                            {% if i.id == editdata.district_id %} selected {% endif %}>
+
+                                {{ i.district_name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Place Name</strong></td>
+
+                    <td>
+
+                        <input type="text"
+                               name="txt_place"
+                               value="{{editdata.place_name}}"
+                               required
+                               placeholder="Enter Your Place Name">
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td><strong>Pin Code</strong></td>
+
+                    <td>
+
+                        <input type="text"
+                               name="txt_pin"
+                               value="{{editdata.place_pin}}"
+                               required
+                               placeholder="Enter Your Pincode">
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td colspan="2">
+
+                        <div class="btn-group">
+
+                            <input type="submit"
+                                   value="Submit"
+                                   class="btn submit-btn">
+
+                            <input type="reset"
+                                   value="Cancel"
+                                   class="btn reset-btn">
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div class="table-card">
+
+            <h2 class="section-title">Place Details</h2>
+
+            <table class="details-table">
+
+                <tr>
+                    <th>Sl.No</th>
+                    <th>District</th>
+                    <th>Place</th>
+                    <th>Pincode</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for i in place %}
+
+                <tr>
+
+                    <td>{{ forloop.counter }}</td>
+
+                    <td>{{ i.district.district_name }}</td>
+
+                    <td>{{ i.place_name }}</td>
+
+                    <td>{{ i.place_pin }}</td>
+
+                    <td>
+
+                        <a href="{% url 'Admin:placedelete' i.id %}"
+                           class="action-btn delete-btn">
+                           Delete
+                        </a>
+
+                        <a href="{% url 'Admin:placeedit' i.id %}"
+                           class="action-btn edit-btn">
+                           Edit
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </form>
+
+</div>
+{% endblock content %}

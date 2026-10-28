@@ -1,0 +1,219 @@
+{% extends 'Adminstrator/Header.html' %}
+{% load static %}
+{% block content %}
+<style>
+
+    body{
+        font-family: 'Poppins', sans-serif;
+        background: #f4f7fc;
+    }
+
+    .container{
+        width: 95%;
+        margin: 40px auto;
+    }
+
+    .page-title{
+        text-align: center;
+        font-size: 34px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 30px;
+    }
+
+    .table-card{
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        overflow-x: auto;
+    }
+
+    table{
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table th{
+        background: #2563eb;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    table td{
+        padding: 14px;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 14px;
+    }
+
+    table tr:hover{
+        background: #f8fafc;
+    }
+
+    .profile-img{
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid #dbeafe;
+    }
+
+    .action-btn{
+        padding: 8px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: white;
+        font-size: 13px;
+        font-weight: 500;
+        margin: 3px;
+        display: inline-block;
+        transition: 0.3s;
+    }
+
+    .accept-btn{
+        background: #10b981;
+    }
+
+    .accept-btn:hover{
+        background: #059669;
+    }
+
+    .reject-btn{
+        background: #ef4444;
+    }
+
+    .reject-btn:hover{
+        background: #dc2626;
+    }
+
+    .accepted{
+        color: #10b981;
+        font-weight: bold;
+    }
+
+    .rejected{
+        color: #ef4444;
+        font-weight: bold;
+    }
+
+    @media(max-width:768px){
+
+        .page-title{
+            font-size: 26px;
+        }
+
+        table th,
+        table td{
+            font-size: 12px;
+            padding: 10px;
+        }
+
+        .profile-img{
+            width: 80px;
+            height: 80px;
+        }
+    }
+
+</style>
+
+<div class="container">
+
+    <div class="page-title">
+        Delivery Boy List
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <div class="table-card">
+
+            <table>
+
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Photo</th>
+                    <th>Proof</th>
+                    <th>District</th>
+                    <th>Place</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for i in dboy %}
+
+                <tr>
+
+                    <td>{{forloop.counter}}</td>
+
+                    <td>{{i.dboy_name}}</td>
+
+                    <td>{{i.dboy_email}}</td>
+
+                    <td>{{i.dboy_contact}}</td>
+
+                    <td>{{i.dboy_address}}</td>
+
+                    <td>
+                        <img src="{{i.dboy_photo.url}}" class="profile-img">
+                    </td>
+
+                    <td>
+                        <img src="{{i.dboy_proof.url}}" class="profile-img">
+                    </td>
+
+                    <td>{{i.place.district.district_name}}</td>
+
+                    <td>{{i.place.place_name}}</td>
+
+                    <td>
+
+                        {% if i.dboy_status == 0 %}
+
+                            <a href="{% url 'Admin:acceptdboy' i.id %}"
+                               class="action-btn accept-btn">
+                               Accept
+                            </a>
+
+                            <a href="{% url 'Admin:rejectdboy' i.id %}"
+                               class="action-btn reject-btn">
+                               Reject
+                            </a>
+
+                        {% elif i.dboy_status == 1 %}
+
+                            <span class="accepted">Accepted</span>
+
+                        {% else %}
+
+                            <span class="rejected">Rejected</span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Admin:dboylist' %}"
+</script>
+{% endif %}
+{% endblock content %}

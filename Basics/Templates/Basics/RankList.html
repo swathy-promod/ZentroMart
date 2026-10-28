@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rank List</title>
+</head>
+<body>
+    <form method="post" action="">
+        {% csrf_token %}
+        <table border="3" align="center">
+            <tr>
+                <td> firstname</td>
+                <td><input type="text" name="txt_fname" placeholder=""></td>
+            </tr>
+            <tr>
+                <td>Second Name</td>
+                <td><input type="text" name="txt_lname" placeholder=""></td>
+            </tr>
+            <tr>
+                <td>roll number</td>
+                <td><input type="number" name="txt_roll" placeholder=""></td>
+            </tr>
+            <tr>
+                <td>department</td>
+                <td><select name="sel_dept">
+                    <option value="select">---select---</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Commerce">Commerce</option>
+                    <option value="Physical Education">Physical Education</option>
+                </select>
+            </td>
+            </tr>
+            <tr>
+                <td>SEMESTER</td>
+                <td><select name="sel_sem">
+                    <option value="select">---select---</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td>mark1</td>
+                <td><input type="number" name="txt_mark1" placeholder=""></td>
+            </tr>
+            <tr>
+                <td>mark2</td>
+                <td><input type="number" name="txt_mark2" placeholder=""></td>
+            </tr>
+            <tr>
+                <td>mark3</td>
+                <td><input type="number" name="txt_mark3" placeholder=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" class="btn_submit" value="submit">
+                </td>
+            </tr>
+            </table>
+            </form>
+<h1 >DETAILS</h1>
+            <table border="3" align="center">
+                <tr>
+                    <td>Full Name</td>
+                    <td>{{fullname}}</td>
+                </tr>
+                <tr>
+                    <td>Roll Number</td>
+                    <td>{{rno}} </td>
+                </tr>
+                <tr>
+                    <td>Department</td>
+                    <td>{{dpt}}</td>
+                </tr>
+                <tr>
+                    <td>Semester</td>
+                    <td>{{sem}}</td>
+                </tr>
+                <tr>
+                    <td>total marks</td>
+                    <td>{{total}}</td>
+                </tr>
+                <tr>
+                    <td>grade</td>
+                    <td>{{grade}}</td>
+                </tr>
+            </table>    
+
+</body>
+</html>
